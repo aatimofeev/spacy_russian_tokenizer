@@ -6,7 +6,10 @@ from spacy_russian_tokenizer.src.hyphen_patterns import FOREIGN_SURNAME_PATTERNS
     ADVERB_PATTERNS, COMPOUND_PREPOSITION_PATTERNS, PROPER_NAMES_WITH_DIGITS_PATTERNS, \
     COMPOUND_WORDS_WITH_DIGIT_PATTERNS, GEOGRAPHIC_NAMES_PATTERNS, ORG_NAMES_PATTERNS, CONJUNCT_WORDS_PATTERNS, \
     DIRECTION_PATTERNS, MISC_HYPHEN_FORM_PATTERNS, LOANWORDS_PATTERNS, SYNTAGRUS_RARE_CASES, COMPOUND_NOUNS, \
-    COMPOUND_ADJECTIVE_PATTERNS
+    COMPOUND_ADJECTIVE_PATTERNS, ADDRESS_PATTERNS
+from ..src.bigram_patterns import PERCENTAGE_PATTERNS, TIME_PATTERNS
+from spacy_russian_tokenizer.src.sentence_terminal_patterns import NO_TERMINAL_PATTERNS
+from spacy_russian_tokenizer.src.sentence_segmentation import detect_sentence_boundaries
 from spacy_russian_tokenizer.pipeline import pipeline
 
 
@@ -32,7 +35,7 @@ def test_pronouns():
 
 def test_particles():
     nlp = pipeline(PARTICLE_PATTERNS)
-    text = "ничего-де, Ответь-ка, Вот-те, Чёрт-те, да-с, нет-с, довольно-таки, наконец-таки"
+    text = "ничего-де, Ответь-ка, Вот-те, Чёрт-те, довольно-таки, наконец-таки"
     doc = nlp(text)
     assert [i.text for i in doc if not i.is_punct] == text.split(', ')
 
@@ -89,6 +92,13 @@ def test_directions():
     assert [i.text for i in doc if not i.is_punct] == text.split(', ')
 
 
+def test_common_shortforms():
+    text = "Почтовый индекс территория Коллективный сад Борец, рп. Кропачево, Ашинский р-н"
+    nlp = pipeline(ADDRESS_PATTERNS)
+    doc = nlp(text)
+    assert doc[-1].text == 'р-н'
+
+
 def test_loanwords():
     nlp = pipeline(LOANWORDS_PATTERNS)
     text = "обер-мастер, унтер-офицер, лейб-медик, штаб-квартира, вице-президент, экс-чемпион"
@@ -104,9 +114,44 @@ def test_compound_words():
 
 
 def test_compound_adjectives():
-    nlp = pipeline(COMPOUND_NOUNS + COMPOUND_ADJECTIVE_PATTERNS)
+    nlp = pipeline(merge_patterns=COMPOUND_NOUNS + COMPOUND_ADJECTIVE_PATTERNS)
     text = "Социал-демократия — социальная политика и идейно-политическое течение"
     doc = nlp(text)
-    # [i.text for i in doc]
     assert doc[0].text == 'Социал-демократия'
     assert doc[5].text == 'идейно-политическое'
+
+
+def test_percentage():
+    nlp = pipeline(merge_patterns=PERCENTAGE_PATTERNS)
+    text = "Социал-демократия — социальная политика и идейно-политическое течение"
+    doc = nlp(text)
+    assert doc[0].text == 'Социал-демократия'
+    assert doc[5].text == 'идейно-политическое'
+
+
+def test_time():
+    nlp = pipeline(merge_patterns=TIME_PATTERNS)
+    text = "Сегодня появилось официальное сообщение о том, что в связи с ремонтом дороги с 23:00 до 6:00 вплоть до " \
+           "5 мая будет закрываться движение транспорта"
+    doc = nlp(text)
+    assert doc[14].text == '23:00'
+    assert doc[16].text == doc[16].text
+
+
+def test_sentence_segmentation():
+    text = """Сбербанк планирует выходить из ситуации, постепенно повышая ставки по кредитам, заявил вчера на Давосском экономическом форуме глава Сбербанка Герман Греф. "Ставки все взаимосвязаны. Если ставки растут по пассивной части, то они растут и по активной части. Четыре-пять месяцев назад мы выдавали ипотеку под 8% годовых на восемь лет, а сегодня у нас ставки привлечения — 8%. Конечно, это делать невозможно. Мы, конечно, будем постепенно поднимать ставки по кредитам физическим лицам",— цитирует господина Грефа "РИА Новости"""""
+    nlp = pipeline(terminal_patterns=NO_TERMINAL_PATTERNS)
+    doc = nlp(text)
+    assert len(list(doc.sents)) == 6
+
+
+def test_sentence_segmentation_merge():
+    text = "Конкурсный управляющий посредством публичного предложения проводит реализацию имущества СХА «Победа» " \
+           "(с. Старая Калитва Россошанского р-на Воронежской обл.), наименование, местоположение и рыночная " \
+           "стоимость которого указаны в объявлении, опубликованном…"
+    nlp = pipeline(terminal_patterns=NO_TERMINAL_PATTERNS)
+    doc = nlp(text)
+    assert len(list(doc.sents)) == 1
+    text = """28 мая 2013 года в отношении главы администрации Смоленска Александра Данилюка возбуждено уголовное дело по ч. 2 ст. 286 УК РФ ("Превышение должностных полномочий")."""
+    doc = nlp(text)
+    assert len(list(doc.sents)) == 1
