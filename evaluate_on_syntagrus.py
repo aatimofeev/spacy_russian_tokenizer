@@ -1,4 +1,5 @@
 from collections import defaultdict
+import re
 
 from spacy.tokens import Doc
 from spacy.gold import GoldParse
@@ -54,6 +55,9 @@ def extract_docs_and_golds(nlp, conllu_file):
                 sent_heads.append(head)
                 sent_deps.append('ROOT' if dep == 'root' else dep)
             sent_heads, sent_deps = projectivize(sent_heads, sent_deps)
+            # text should be cleaned, because removing trailing spaces is not point of spaCy at all
+            # and should not be evaluated
+            text = re.sub('\s+', ' ', text).strip().strip()
             parsed_sentences.append(nlp(text))
             gold = GoldParse(Doc(nlp.vocab, words=sent_words), words=sent_words, heads=sent_heads,
                              tags=sent_tags, deps=sent_deps,
@@ -107,20 +111,22 @@ if __name__ == "__main__":
               ' '.join(fail[1].words))
     print("Evaluation took {end_time:.2f} seconds, {improvement:.2f} improvement".format(end_time=end_time,
                                                                                          improvement=(
-                                                                                                             end_time / 58.40) - 1))
+                                                                                                         end_time / 58.40) - 1))
     print("Strict tokenization evaluation: F1: {f1:.3f}, precision: {precision:.2f}, recall: {recall:.2f}".format(
         precision=strict_tokenization_evaluation[0],
         recall=strict_tokenization_evaluation[1],
         f1=strict_tokenization_evaluation[1]))
     print("Strict tokenization results improvement: {x:.3f}".format(
-        x=strict_tokenization_evaluation[0] / 0.95 - 1))
+        x=strict_tokenization_evaluation[0] / 0.946 - 1))
+    print("{x} more correct tokens achieved (total: {y})".format(x=fully_correct_parsed_count - 823261,
+                                                                 y=fully_correct_parsed_count))
 
     print("Loose tokenization evaluation: F1: {f1:.3f}, precision: {precision:.2f}, recall: {recall:.2f}".format(
         precision=loose_tokenization_evaluation[0],
         recall=loose_tokenization_evaluation[1],
         f1=loose_tokenization_evaluation[1]))
     print("Loose tokenization results improvement: {x:.3f}".format(
-        x=loose_tokenization_evaluation[0] / 0.97 - 1))
+        x=loose_tokenization_evaluation[0] / 0.971 - 1))
 
     print("Sentence segmentation evaluation: F1: {f1:.3f}, precision: {precision:.2f}, recall: {recall:.2f}".format(
         precision=segmentation_evaluation[0],
@@ -128,4 +134,6 @@ if __name__ == "__main__":
         f1=segmentation_evaluation[1]))
     print(
         "Sentence segmentation results improvement: {x:.3f}".format(
-            x=segmentation_evaluation[0] / 0.23 - 1))
+            x=segmentation_evaluation[0] / 0.214 - 1))
+    print("{x} more correct sentences achieved (total:{y})".format(x=correct_sentences - 0,
+                                                                   y=correct_sentences))
