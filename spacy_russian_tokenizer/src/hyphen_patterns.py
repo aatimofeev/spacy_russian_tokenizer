@@ -66,10 +66,22 @@ PROPER_NAMES_WITH_DIGITS_PATTERNS = [
 
 COMPOUND_WORDS_WITH_DIGIT_PATTERNS = [
     [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "е"}],  # 1990-е
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "й"}],  # 1990-й
     [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "х"}],  # 2000-х
     [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "м"}],  # 2007-м
     [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "ти"}],  # 15-ти
     [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "го"}],  # 10-го
+
+
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "летие"}],
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "летний"}],
+
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "летней"}],
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "летняя"}],
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "летие"}],
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "процентный"}],
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "процентная"}],
+    [{"IS_DIGIT": True}, {'ORTH': "-"}, {'LOWER': "процентное"}],
 
 ]
 
@@ -347,6 +359,8 @@ SYNTAGRUS_RARE_CASES = [
     [{'ORTH': "летне"}, {'ORTH': "-"}, {}],
     [{'ORTH': "информационно"}, {'ORTH': "-"}, {}],
     [{'ORTH': "ликеро"}, {'ORTH': "-"}, {}],
+    [{'ORTH': "HDTV"}, {'ORTH': "-"}, {}],
+
     [{}, {'ORTH': "."}, {'ORTH': "Ru"}],
 
 ]
