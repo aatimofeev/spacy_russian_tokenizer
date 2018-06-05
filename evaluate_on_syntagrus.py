@@ -1,15 +1,14 @@
-from collections import defaultdict
 import re
+from collections import defaultdict
 
-from spacy.tokens import Doc
 from spacy.gold import GoldParse
 from spacy.syntax.nonproj import projectivize
+from spacy.tokens import Doc
 
-from spacy_russian_tokenizer.src import MERGE_PATTERNS
-from spacy_russian_tokenizer.src import NO_TERMINAL_PATTERNS
-from spacy_russian_tokenizer.pipeline import pipeline
-from spacy_russian_tokenizer.evaluation.evaluation_utils import find_unaligned_sentences, find_problem_tokens, \
-    calculate_f1, count_partially_aligned_tokens, evaluate_sentences
+from spacy_russian_tokenizer import pipeline, MERGE_PATTERNS, NO_TERMINAL_PATTERNS
+from spacy_russian_tokenizer.evaluation.evaluation_utils import find_unaligned_sentences, calculate_f1, \
+    count_partially_aligned_tokens, evaluate_sentences
+from spacy_russian_tokenizer.src import SYNTAGRUS_RARE_CASES
 
 
 def extract_docs_and_golds(nlp, conllu_file):
@@ -57,7 +56,7 @@ def extract_docs_and_golds(nlp, conllu_file):
             sent_heads, sent_deps = projectivize(sent_heads, sent_deps)
             # text should be cleaned, because removing trailing spaces is not point of spaCy at all
             # and should not be evaluated
-            text = re.sub('\s+', ' ', text).strip().strip()
+            text = re.sub('\s+', ' ', text).strip()
             parsed_sentences.append(nlp(text))
             gold = GoldParse(Doc(nlp.vocab, words=sent_words), words=sent_words, heads=sent_heads,
                              tags=sent_tags, deps=sent_deps,
@@ -79,7 +78,7 @@ if __name__ == "__main__":
     parser.add_argument('--conllu_file', help='Syntagrus CoNLL file', required=True, type=str)
     args = parser.parse_args()
 
-    nlp = pipeline(MERGE_PATTERNS, NO_TERMINAL_PATTERNS)
+    nlp = pipeline(MERGE_PATTERNS + SYNTAGRUS_RARE_CASES, NO_TERMINAL_PATTERNS)
     parsed_sentences, gold_sentences, gold_segmentation, documents, documents_gold_sentences = extract_docs_and_golds(
         nlp,
         args.conllu_file)
@@ -104,7 +103,7 @@ if __name__ == "__main__":
                                            produced_count=parsed_sentences)
 
     end_time = time.time() - start_time
-    for fail in fails:
+    for fail in unaligned:
         print('\n\n',
               ' '.join([i.text for i in fail[0]]),
               '\n',
@@ -118,7 +117,7 @@ if __name__ == "__main__":
         f1=strict_tokenization_evaluation[1]))
     print("Strict tokenization results improvement: {x:.3f}".format(
         x=strict_tokenization_evaluation[0] / 0.946 - 1))
-    print("{x} more correct tokens achieved (total: {y})".format(x=fully_correct_parsed_count - 823261,
+    print("{x} more correct tokens achieved (total: {y})".format(x=fully_correct_parsed_count - 831172,
                                                                  y=fully_correct_parsed_count))
 
     print("Loose tokenization evaluation: F1: {f1:.3f}, precision: {precision:.2f}, recall: {recall:.2f}".format(
@@ -135,5 +134,5 @@ if __name__ == "__main__":
     print(
         "Sentence segmentation results improvement: {x:.3f}".format(
             x=segmentation_evaluation[0] / 0.214 - 1))
-    print("{x} more correct sentences achieved (total:{y})".format(x=correct_sentences - 0,
+    print("{x} more correct sentences achieved (total:{y})".format(x=correct_sentences - 12394,
                                                                    y=correct_sentences))
