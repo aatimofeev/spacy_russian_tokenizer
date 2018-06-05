@@ -15,7 +15,7 @@ NO_TERMINAL_PATTERNS = [
     [{'LOWER': "хр"}, {'ORTH': "."}, {"IS_TITLE": True}],
 
     # address pattern, building number component
-    [{'LOWER': "д"}, {'ORTH': "."}, {"IS_DIGIT": True}],
+    # [{'LOWER': "д"}, {'ORTH': "."}, {"IS_DIGIT": True}],
     [{'LOWER': "корп"}, {'ORTH': "."}, {"IS_DIGIT": True}],
     [{'LOWER': "кор"}, {'ORTH': "."}, {"IS_DIGIT": True}],
     [{'LOWER': "стр"}, {'ORTH': "."}, {"IS_DIGIT": True}],
@@ -24,7 +24,7 @@ NO_TERMINAL_PATTERNS = [
     [{'LOWER': "кв"}, {'ORTH': "."}, {"IS_DIGIT": True}],
     # legal pattern
     [{'LOWER': "ч"}, {'ORTH': "."}, {"IS_DIGIT": True}],
-    [{'LOWER': "п"}, {'ORTH': "."}, {"IS_DIGIT": True}],
+    # [{'LOWER': "п"}, {'ORTH': "."}, {"IS_DIGIT": True}],
     [{'LOWER': "ст"}, {'ORTH': "."}, {"IS_DIGIT": True}],
     # numbers patters
     [{'LOWER': "тыс"}, {'ORTH': "."}, {"IS_DIGIT": True}],
