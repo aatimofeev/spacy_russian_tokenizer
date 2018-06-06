@@ -8,7 +8,7 @@ from spacy.tokens import Doc
 from spacy_russian_tokenizer import pipeline, MERGE_PATTERNS, NO_TERMINAL_PATTERNS
 from spacy_russian_tokenizer.evaluation.evaluation_utils import find_unaligned_sentences, calculate_f1, \
     count_partially_aligned_tokens, evaluate_sentences
-from spacy_russian_tokenizer.src import SYNTAGRUS_RARE_CASES
+from spacy_russian_tokenizer.patterns import SYNTAGRUS_RARE_CASES
 
 
 def extract_docs_and_golds(nlp, conllu_file):
@@ -110,7 +110,7 @@ if __name__ == "__main__":
               ' '.join(fail[1].words))
     print("Evaluation took {end_time:.2f} seconds, {improvement:.2f} improvement".format(end_time=end_time,
                                                                                          improvement=(
-                                                                                                         end_time / 58.40) - 1))
+                                                                                                             end_time / 58.40) - 1))
     print("Strict tokenization evaluation: F1: {f1:.3f}, precision: {precision:.2f}, recall: {recall:.2f}".format(
         precision=strict_tokenization_evaluation[0],
         recall=strict_tokenization_evaluation[1],

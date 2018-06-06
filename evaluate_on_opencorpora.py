@@ -1,16 +1,16 @@
 from lxml import html
-
-from spacy.tokens import Doc
 from spacy.gold import GoldParse
+from spacy.tokens import Doc
 
-from spacy_russian_tokenizer.src.hyphen_patterns import FOREIGN_SURNAME_PATTERNS, PRONOUN_PATTERNS, PARTICLE_PATTERNS, \
+from spacy_russian_tokenizer.evaluation.evaluation_utils import find_unaligned_sentences, find_problem_tokens
+from spacy_russian_tokenizer.patterns.bigram_patterns import PERCENTAGE_PATTERNS
+from spacy_russian_tokenizer.patterns.hyphen_patterns import FOREIGN_SURNAME_PATTERNS, PRONOUN_PATTERNS, \
+    PARTICLE_PATTERNS, \
     ADVERB_PATTERNS, COMPOUND_PREPOSITION_PATTERNS, PROPER_NAMES_WITH_DIGITS_PATTERNS, \
     COMPOUND_WORDS_WITH_DIGIT_PATTERNS, GEOGRAPHIC_NAMES_PATTERNS, ORG_NAMES_PATTERNS, CONJUNCT_WORDS_PATTERNS, \
     DIRECTION_PATTERNS, MISC_HYPHEN_FORM_PATTERNS, LOANWORDS_PATTERNS, SYNTAGRUS_RARE_CASES, COMPOUND_NOUNS, \
     COMPOUND_ADJECTIVE_PATTERNS
-from spacy_russian_tokenizer.src.bigram_patterns import PERCENTAGE_PATTERNS
 from spacy_russian_tokenizer.pipeline import pipeline
-from spacy_russian_tokenizer.evaluation.evaluation_utils import find_unaligned_sentences, find_problem_tokens
 
 
 def extract_docs_and_golds_from_opencorpora(nlp, opencorpora_file):

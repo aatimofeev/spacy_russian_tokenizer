@@ -1,10 +1,9 @@
 import re
 
-from spacy.tokens import Token
 from spacy.matcher import Matcher
-
 from spacy.util import get_lang_class
-from spacy_russian_tokenizer.src.sentence_segmentation import detect_sentence_boundaries
+
+from spacy_russian_tokenizer.patterns.sentence_segmentation import detect_sentence_boundaries
 
 HYPHEN_SPICIAL_CASES = ['Сент-Женевьев-де-Буа', 'Гран-при', 'перпетуум-мобиле', 'давным-давно', 'па-де-труа',
                         'вот-вот', 'ГУ-ВШЭ', 'постольку-поскольку', 'туда-сюда', 'Та-да-дам', 'Точь-в-точь',
@@ -88,7 +87,7 @@ def pipeline(merge_patterns=[], terminal_patterns=[]):
     r'(?<=[{au}])\.(?=\w+)'.format(au=CYRILLIC_UPPER)
 
     Language = get_lang_class('ru')
-    Language.Defaults.infixes += ('«»', )
+    Language.Defaults.infixes += ('«»',)
     Language.Defaults.infixes += ('-',)
     Language.Defaults.infixes += ('"\/',)
     Language.Defaults.infixes += (r'(?<=[{au}])\.(?=\w+)'.format(au=CYRILLIC_UPPER),)

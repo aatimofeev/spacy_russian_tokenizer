@@ -1,10 +1,9 @@
 from spacy.matcher import Matcher
 from spacy.util import get_lang_class
 
-from spacy_russian_tokenizer.src import MERGE_PATTERNS
-from spacy_russian_tokenizer.src import NO_TERMINAL_PATTERNS
-from spacy_russian_tokenizer.src.sentence_segmentation import detect_sentence_boundaries
-from spacy_russian_tokenizer.src.tokenizer_exceptions import SPECIAL_CASES, DOT_SPECIAL_CASES
+from spacy_russian_tokenizer.patterns import MERGE_PATTERNS, SYNTAGRUS_RARE_CASES, NO_TERMINAL_PATTERNS
+from spacy_russian_tokenizer.patterns.sentence_segmentation import detect_sentence_boundaries
+from spacy_russian_tokenizer.patterns.tokenizer_exceptions import SPECIAL_CASES, DOT_SPECIAL_CASES
 
 
 class RussianTokenizer(object):

@@ -1,11 +1,11 @@
 from spacy_russian_tokenizer import pipeline
-from spacy_russian_tokenizer.src import FOREIGN_SURNAME_PATTERNS, PRONOUN_PATTERNS, PARTICLE_PATTERNS, \
+from spacy_russian_tokenizer.patterns import FOREIGN_SURNAME_PATTERNS, PRONOUN_PATTERNS, PARTICLE_PATTERNS, \
     ADVERB_PATTERNS, COMPOUND_PREPOSITION_PATTERNS, PROPER_NAMES_WITH_DIGITS_PATTERNS, \
     COMPOUND_WORDS_WITH_DIGIT_PATTERNS, GEOGRAPHIC_NAMES_PATTERNS, ORG_NAMES_PATTERNS, CONJUNCT_WORDS_PATTERNS, \
     DIRECTION_PATTERNS, LOANWORDS_PATTERNS, COMPOUND_NOUNS, \
     COMPOUND_ADJECTIVE_PATTERNS, ADDRESS_PATTERNS, INTERJECTIONS_PATTERNS, UNIT_PATTERNS
-from spacy_russian_tokenizer.src import NO_TERMINAL_PATTERNS
-from spacy_russian_tokenizer.src.bigram_patterns import PERCENTAGE_PATTERNS, TIME_PATTERNS
+from spacy_russian_tokenizer.patterns import NO_TERMINAL_PATTERNS
+from spacy_russian_tokenizer.patterns.bigram_patterns import PERCENTAGE_PATTERNS, TIME_PATTERNS
 
 
 def test_foreign_surnames():

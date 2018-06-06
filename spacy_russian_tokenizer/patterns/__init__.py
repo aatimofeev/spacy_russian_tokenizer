@@ -1,13 +1,14 @@
-from spacy_russian_tokenizer.src.hyphen_patterns import FOREIGN_SURNAME_PATTERNS, PRONOUN_PATTERNS, PARTICLE_PATTERNS, \
+from spacy_russian_tokenizer.patterns.hyphen_patterns import FOREIGN_SURNAME_PATTERNS, PRONOUN_PATTERNS, \
+    PARTICLE_PATTERNS, \
     ADVERB_PATTERNS, COMPOUND_PREPOSITION_PATTERNS, PROPER_NAMES_WITH_DIGITS_PATTERNS, \
     COMPOUND_WORDS_WITH_DIGIT_PATTERNS, GEOGRAPHIC_NAMES_PATTERNS, ORG_NAMES_PATTERNS, CONJUNCT_WORDS_PATTERNS, \
-    DIRECTION_PATTERNS, MISC_HYPHEN_FORM_PATTERNS, LOANWORDS_PATTERNS,  COMPOUND_NOUNS, \
+    DIRECTION_PATTERNS, MISC_HYPHEN_FORM_PATTERNS, LOANWORDS_PATTERNS, COMPOUND_NOUNS, \
     COMPOUND_ADJECTIVE_PATTERNS, ADDRESS_PATTERNS, INTERJECTIONS_PATTERNS
-from spacy_russian_tokenizer.src.syntagrus_patterns import SYNTAGRUS_RARE_CASES
-from spacy_russian_tokenizer.src.slash_patterns import UNIT_PATTERNS
-from spacy_russian_tokenizer.src.sentence_segmentation import detect_sentence_boundaries
-from spacy_russian_tokenizer.src.sentence_terminal_patterns import NO_TERMINAL_PATTERNS
-from spacy_russian_tokenizer.src.tokenizer_exceptions import SPECIAL_CASES, DOT_SPECIAL_CASES
+from spacy_russian_tokenizer.patterns.sentence_segmentation import detect_sentence_boundaries
+from spacy_russian_tokenizer.patterns.sentence_terminal_patterns import NO_TERMINAL_PATTERNS
+from spacy_russian_tokenizer.patterns.slash_patterns import UNIT_PATTERNS
+from spacy_russian_tokenizer.patterns.syntagrus_patterns import SYNTAGRUS_RARE_CASES
+from spacy_russian_tokenizer.patterns.tokenizer_exceptions import SPECIAL_CASES, DOT_SPECIAL_CASES
 
 MERGE_PATTERNS = FOREIGN_SURNAME_PATTERNS + PRONOUN_PATTERNS + PARTICLE_PATTERNS + ADVERB_PATTERNS + \
                  COMPOUND_PREPOSITION_PATTERNS + COMPOUND_WORDS_WITH_DIGIT_PATTERNS + \
