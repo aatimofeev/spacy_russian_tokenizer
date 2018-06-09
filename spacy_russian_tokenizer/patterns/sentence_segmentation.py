@@ -6,7 +6,9 @@ SENTENCE_TERMINALS = [i for i in SENTENCE_TERMINAL_CHARS] + SENTENCE_TERMINAL_NG
 
 def detect_sentence_boundaries(doc):
     for i, token in enumerate(doc[:-2]):
-        if token.text in SENTENCE_TERMINALS:
+        if token.text == '\n\n':
+            doc[i + 1].sent_start = True
+        elif token.text in SENTENCE_TERMINALS:
             # define sentence start if known sentence terminal and title case token or digit after
             if doc[i + 1].is_title or doc[i + 1].is_upper or doc[i + 1].is_digit or doc[i + 1].text in {'"'}:
                 doc[i + 1].sent_start = True

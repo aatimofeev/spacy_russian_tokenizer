@@ -169,3 +169,12 @@ def test_sentence_segmentation_merge():
            "по ч. 2 ст. 286 УК РФ (\"Превышение должностных полномочий\")."
     doc = nlp(text)
     assert len(list(doc.sents)) == 1
+
+
+def test_sentence_splitting_with_sections():
+    text = "На заводе «Этерно» в Челябинске запущена новая производственная линия\n\nНа челябинском заводе «ЭТЕРНО», " \
+           "учредителями которого являются ЧТПЗ и РОСНАНО, состоялся запуск производства штампосварных деталей " \
+           "(разрезных тройников) с использованием нанотехнологий."
+    nlp = pipeline(terminal_patterns=NO_TERMINAL_PATTERNS)
+    doc = nlp(text)
+    assert len(list(doc.sents)) == 2
