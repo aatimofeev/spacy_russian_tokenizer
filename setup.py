@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name="spacy-russian-tokenizer",
-    version='0.1.0',
+    version='0.1.1',
     description="Custom Russian tokenizer for spaCy",
     long_description="This package uses spaCy Matcher API to create rules for specific cases and exceptions in Russian "
                      "language.",
